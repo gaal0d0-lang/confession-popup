@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浪漫表白</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .popup-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .confession-popup {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            animation: popup 0.5s ease-out;
+        }
+        
+        @keyframes popup {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .hearts {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            color: #ff4757;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        .message {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #34495e;
+            margin-bottom: 30px;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-yes {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-yes:hover {
+            background: #2ecc71;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .btn-no {
+            background: #e74c3c;
+            color: white;
+            position: relative;
+        }
+        
+        .btn-no:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            animation: confetti-fall linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .love-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .love-heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff4757;
+            animation: love-float 3s ease-out forwards;
+        }
+        
+        @keyframes love-float {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-container">
+        <div class="confession-popup">
+            <div class="hearts">❤️</div>
+            <h2>我有话想对你说</h2>
+            <p class="message">
+                从见到你的第一眼起，我就被你深深吸引。
+                你的笑容像阳光一样温暖，你的声音像音乐一样动听。
+                我想告诉你，我喜欢你，愿意和你一起度过每一个美好的日子。
+                你愿意做我的女朋友吗？
+            </p>
+            <div class="buttons">
+                <button class="btn btn-yes" onclick="handleYes()">我愿意</button>
+                <button class="btn btn-no" onclick="handleNo()">再考虑考虑</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="love-animation" id="loveAnimation"></div>
+    
+    <script>
+        function handleYes() {
+            // 显示庆祝效果
+            createConfetti();
+            createLoveHearts();
+            
+            // 更改弹窗内容
+            setTimeout(() => {
+                document.querySelector('.confession-popup').innerHTML = `
+                    <div class="hearts">❤️❤️❤️</div>
+                    <h2>太好了！</h2>
+                    <p class="message">
+                        我太开心了！从今天开始，我们就是情侣了。
+                        我会好好照顾你，珍惜我们在一起的每一刻。
+                        我爱你！
+                    </p>
+                    <div class="buttons">
+                        <button class="btn btn-yes" onclick="reloadPage()">再来一次</button>
+                    </div>
+                `;
+            }, 2000);
+        }
+        
+        function handleNo() {
+            // 让"再考虑考虑"按钮随机移动
+            const noButton = document.querySelector('.btn-no');
+            const container = document.querySelector('.confession-popup');
+            const containerRect = container.getBoundingClientRect();
+            
+            const maxX = containerRect.width - noButton.offsetWidth;
+            const maxY = containerRect.height - noButton.offsetHeight;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            noButton.style.position = 'relative';
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
+        }
+        
+        function createConfetti() {
+            const colors = ['#ff4757', '#2ed573', '#1e90ff', '#ff6b81', '#3742fa'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = Math.random() + 's';
+                document.body.appendChild(confetti);
+                
+                // 清理纸屑元素
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        function createLoveHearts() {
+            const loveAnimation = document.getElementById('loveAnimation');
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('love-heart');
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                loveAnimation.appendChild(heart);
+                
+                // 清理爱心元素
+                setTimeout(() => {
+                    heart.remove();
+                }, 3000);
+            }
+        }
+        
+        function reloadPage() {
+            window.location.reload();
+        }
+        
+        // 页面加载时的欢迎动画
+        window.addEventListener('load', function() {
+            // 可以在这里添加额外的加载动画
+        });
+    </script>
+</body>
+</html>
